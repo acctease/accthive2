@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme {
+  --color-background-light: #f6f5f8;
+  --color-background-dark: #131118;
+  --color-primary: #6a3bf7;
+  --color-secondary: #a78bfa;
+  --color-card-dark: #1e1b2e;
+  --color-border-dark: #2c2839;
+  
+  /* Profile Page Colors */
+  --color-surface-dark: #1e1b26;
+  --color-surface-light: #ffffff;
+  --color-input-bg: #2c2839;
+
+  /* Service Page Colors */
+  --color-card-dark-service: #1d1a27;
+  --color-card-border: #2c2839;
+
+  /* Social Boost Brand Colors */
+  --color-instagram-start: #f09433;
+  --color-instagram-end: #bc1888;
+  --color-twitter-start: #1DA1F2;
+  --color-twitter-end: #0d8ecf;
+  --color-facebook-start: #1877F2;
+  --color-facebook-end: #0e5abe;
+
+  /* Dashboard Colors */
+  --color-sidebar-start: #6a3bf7;
+  --color-sidebar-end: #311b92;
+
+  /* Gifting Colors */
+  --color-accent-amber: #fbbf24;
+  --color-accent-blue: #3b82f6;
+  --color-accent-green: #22c55e;
+  --color-accent-purple: #a855f7;
+  --color-surface-dark-gifting: #16141c;
+  --color-border-dark-gifting: #2a2733;
+
+  --font-display: "Manrope", sans-serif;
+  --font-body: "Noto Sans", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
+
+  --background-image-hero-glow: conic-gradient(from 180deg at 50% 50%, #131118 0deg, #1e1b2e 120deg, #2e1065 240deg, #131118 360deg);
+  --background-image-gradient-primary: linear-gradient(135deg, #6a3bf7 0%, #d946ef 100%);
+}
+
+@layer utilities {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-nav {
+    background: rgba(19, 17, 24, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #a78bfa 0%, #6a3bf7 50%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(106, 59, 247, 0.4);
+    border-color: rgba(106, 59, 247, 0.5);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+  }
+
+  /* Toggle Switch */
+  .toggle-checkbox:checked {
+    right: 0;
+    border-color: #6a3bf7;
+  }
+  .toggle-checkbox:checked + .toggle-label {
+    background-color: #6a3bf7;
+  }
+
+  /* SMS Service - Chat Bubble Tail */
+  .chat-bubble-tail {
+    position: absolute;
+    bottom: 0;
+    left: -10px;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at top left, transparent 70%, #2c2839 70%);
+  }
+
+  /* Social Boost Gradients & Cards */
+  .service-card {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  }
+  .service-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .gradient-text-instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-twitter {
+    background: linear-gradient(45deg, #1DA1F2 0%, #0d8ecf 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-facebook {
+    background: linear-gradient(45deg, #1877F2 0%, #0e5abe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-bg-instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  }
+  .gradient-bg-twitter {
+    background: linear-gradient(45deg, #1DA1F2 0%, #0d8ecf 100%);
+  }
+  .gradient-bg-facebook {
+    background: linear-gradient(45deg, #1877F2 0%, #0e5abe 100%);
+  }
+  
+  /* Utilities needed for hide scrollbar in chips */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .mask-gradient {
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  }
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #141022; 
+}
+::-webkit-scrollbar-thumb {
+    background: #2c2839; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #6a3bf7; 
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
