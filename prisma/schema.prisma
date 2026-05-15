@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wallets Wallet[]
+  orders  Order[]
+  gifts   Gift[]
+}
+
+model Wallet {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  balance   Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  walletId    String          @db.ObjectId
+  type        TransactionType
+  amount      Float
+  description String
+  createdAt   DateTime        @default(now())
+
+  wallet Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  PAYMENT
+}
+
+model Service {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  category    String
+  description String
+  price       Float
+  isActive    Boolean  @default(true)
+  externalId  String?  @unique
+  createdAt   DateTime @default(now())
+
+  orders Order[]
+  gifts  Gift[]
+}
+
+model Order {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String      @db.ObjectId
+  serviceId    String?     @db.ObjectId
+  // External service fields (used when serviceId is null)
+  serviceName  String?
+  serviceType  String?
+  servicePrice Float?
+  amount       Float
+  status       OrderStatus @default(PENDING)
+  details      Json?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service Service? @relation(fields: [serviceId], references: [id])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model Gift {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String  @db.ObjectId
+  serviceId String? @db.ObjectId
+
+  // Recipient Information
+  recipientName    String
+  recipientEmail   String
+  recipientPhone   String?
+  recipientCountry String
+  recipientCity    String?
+  recipientAddress String?
+
+  // Gift Details
+  message        String?
+  amount         Float
+  status         GiftStatus @default(PENDING)
+  deliveryMethod String // EMAIL, SMS, WHATSAPP
+
+  // Tracking
+  sentAt      DateTime?
+  deliveredAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service Service? @relation(fields: [serviceId], references: [id])
+}
+
+enum GiftStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+}
